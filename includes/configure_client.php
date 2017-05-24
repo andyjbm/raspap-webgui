@@ -75,9 +75,11 @@ function DisplayWPAConfig(){
           fwrite($wpa_file, "}".PHP_EOL);
         } else {
           if (strlen($network['passphrase']) >=8 && strlen($network['passphrase']) <= 63) {
+            unset($wpa_passphrase);
+            unset($pline);
             exec( 'wpa_passphrase '.escapeshellarg($ssid). ' ' . escapeshellarg($network['passphrase']),$wpa_passphrase );
-            foreach($wpa_passphrase as $line) {
-              fwrite($wpa_file, $line.PHP_EOL);
+            foreach($wpa_passphrase as $pline) {
+              fwrite($wpa_file, $pline.PHP_EOL);
             }
           } else {
             $status->addMessage('WPA passphrase must be between 8 and 63 characters', 'danger');
